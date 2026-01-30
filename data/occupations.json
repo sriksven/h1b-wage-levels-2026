@@ -1,0 +1,402 @@
+[
+  {
+    "code": "11-1021",
+    "title": "General and Operations Managers"
+  },
+  {
+    "code": "11-2021",
+    "title": "Marketing Managers"
+  },
+  {
+    "code": "11-2022",
+    "title": "Sales Managers"
+  },
+  {
+    "code": "11-2032",
+    "title": "Public Relations Managers"
+  },
+  {
+    "code": "11-3012",
+    "title": "Administrative Services Managers"
+  },
+  {
+    "code": "11-3013",
+    "title": "Facilities Managers"
+  },
+  {
+    "code": "11-3021",
+    "title": "Computer and Information Systems Managers"
+  },
+  {
+    "code": "11-3031",
+    "title": "Financial Managers"
+  },
+  {
+    "code": "11-3051",
+    "title": "Industrial Production Managers"
+  },
+  {
+    "code": "11-3071",
+    "title": "Transportation, Storage, and Distribution Managers"
+  },
+  {
+    "code": "11-3121",
+    "title": "Human Resources Managers"
+  },
+  {
+    "code": "11-3131",
+    "title": "Training and Development Managers"
+  },
+  {
+    "code": "11-9021",
+    "title": "Construction Managers"
+  },
+  {
+    "code": "11-9033",
+    "title": "Education Administrators, Postsecondary"
+  },
+  {
+    "code": "11-9039",
+    "title": "Education Administrators, All Other"
+  },
+  {
+    "code": "11-9041",
+    "title": "Architectural and Engineering Managers"
+  },
+  {
+    "code": "11-9051",
+    "title": "Food Service Managers"
+  },
+  {
+    "code": "11-9111",
+    "title": "Medical and Health Services Managers"
+  },
+  {
+    "code": "11-9141",
+    "title": "Property, Real Estate, and Community Association Managers"
+  },
+  {
+    "code": "11-9151",
+    "title": "Social and Community Service Managers"
+  },
+  {
+    "code": "11-9199",
+    "title": "Managers, All Other"
+  },
+  {
+    "code": "13-1041",
+    "title": "Compliance Officers"
+  },
+  {
+    "code": "13-1051",
+    "title": "Cost Estimators"
+  },
+  {
+    "code": "13-1071",
+    "title": "Human Resources Specialists"
+  },
+  {
+    "code": "13-1081",
+    "title": "Logisticians"
+  },
+  {
+    "code": "13-1082",
+    "title": "Project Management Specialists"
+  },
+  {
+    "code": "13-1111",
+    "title": "Management Analysts"
+  },
+  {
+    "code": "13-1121",
+    "title": "Meeting, Convention, and Event Planners"
+  },
+  {
+    "code": "13-1131",
+    "title": "Fundraisers"
+  },
+  {
+    "code": "13-1151",
+    "title": "Training and Development Specialists"
+  },
+  {
+    "code": "13-1161",
+    "title": "Market Research Analysts and Marketing Specialists"
+  },
+  {
+    "code": "13-1199",
+    "title": "Business Operations Specialists, All Other"
+  },
+  {
+    "code": "13-2011",
+    "title": "Accountants and Auditors"
+  },
+  {
+    "code": "13-2051",
+    "title": "Financial and Investment Analysts"
+  },
+  {
+    "code": "13-2052",
+    "title": "Personal Financial Advisors"
+  },
+  {
+    "code": "13-2071",
+    "title": "Credit Counselors"
+  },
+  {
+    "code": "13-2072",
+    "title": "Loan Officers"
+  },
+  {
+    "code": "15-1211",
+    "title": "Computer Systems Analysts"
+  },
+  {
+    "code": "15-1231",
+    "title": "Computer Network Support Specialists"
+  },
+  {
+    "code": "15-1232",
+    "title": "Computer User Support Specialists"
+  },
+  {
+    "code": "15-1244",
+    "title": "Network and Computer Systems Administrators"
+  },
+  {
+    "code": "15-1252",
+    "title": "Software Developers"
+  },
+  {
+    "code": "15-1253",
+    "title": "Software Quality Assurance Analysts and Testers"
+  },
+  {
+    "code": "15-1299",
+    "title": "Computer Occupations, All Other"
+  },
+  {
+    "code": "15-2051",
+    "title": "Data Scientists"
+  },
+  {
+    "code": "17-2051",
+    "title": "Civil Engineers"
+  },
+  {
+    "code": "17-2071",
+    "title": "Electrical Engineers"
+  },
+  {
+    "code": "17-2141",
+    "title": "Mechanical Engineers"
+  },
+  {
+    "code": "17-3011",
+    "title": "Architectural and Civil Drafters"
+  },
+  {
+    "code": "17-3022",
+    "title": "Civil Engineering Technologists and Technicians"
+  },
+  {
+    "code": "17-3031",
+    "title": "Surveying and Mapping Technicians"
+  },
+  {
+    "code": "19-3033",
+    "title": "Clinical and Counseling Psychologists"
+  },
+  {
+    "code": "19-3034",
+    "title": "School Psychologists"
+  },
+  {
+    "code": "19-3099",
+    "title": "Social Scientists and Related Workers, All Other"
+  },
+  {
+    "code": "19-5011",
+    "title": "Occupational Health and Safety Specialists"
+  },
+  {
+    "code": "21-1012",
+    "title": "Educational, Guidance, and Career Counselors and Advisors"
+  },
+  {
+    "code": "21-1021",
+    "title": "Child, Family, and School Social Workers"
+  },
+  {
+    "code": "21-1022",
+    "title": "Healthcare Social Workers"
+  },
+  {
+    "code": "21-1023",
+    "title": "Mental Health and Substance Abuse Social Workers"
+  },
+  {
+    "code": "21-1091",
+    "title": "Health Education Specialists"
+  },
+  {
+    "code": "21-1092",
+    "title": "Probation Officers and Correctional Treatment Specialists"
+  },
+  {
+    "code": "21-1093",
+    "title": "Social and Human Service Assistants"
+  },
+  {
+    "code": "21-1094",
+    "title": "Community Health Workers"
+  },
+  {
+    "code": "21-1099",
+    "title": "Community and Social Service Specialists, All Other"
+  },
+  {
+    "code": "21-2011",
+    "title": "Clergy"
+  },
+  {
+    "code": "23-1011",
+    "title": "Lawyers"
+  },
+  {
+    "code": "23-2011",
+    "title": "Paralegals and Legal Assistants"
+  },
+  {
+    "code": "23-2093",
+    "title": "Title Examiners, Abstractors, and Searchers"
+  },
+  {
+    "code": "25-1194",
+    "title": "Career/Technical Education Teachers, Postsecondary"
+  },
+  {
+    "code": "25-2011",
+    "title": "Preschool Teachers, Except Special Education"
+  },
+  {
+    "code": "25-3021",
+    "title": "Self-Enrichment Teachers"
+  },
+  {
+    "code": "25-3031",
+    "title": "Substitute Teachers, Short-Term"
+  },
+  {
+    "code": "25-4022",
+    "title": "Librarians and Media Collections Specialists"
+  },
+  {
+    "code": "25-4031",
+    "title": "Library Technicians"
+  },
+  {
+    "code": "25-9031",
+    "title": "Instructional Coordinators"
+  },
+  {
+    "code": "25-9099",
+    "title": "Educational Instruction and Library Workers, All Other"
+  },
+  {
+    "code": "27-1024",
+    "title": "Graphic Designers"
+  },
+  {
+    "code": "27-1026",
+    "title": "Merchandise Displayers and Window Trimmers"
+  },
+  {
+    "code": "27-2012",
+    "title": "Producers and Directors"
+  },
+  {
+    "code": "27-3031",
+    "title": "Public Relations Specialists"
+  },
+  {
+    "code": "29-1031",
+    "title": "Dietitians and Nutritionists"
+  },
+  {
+    "code": "29-1051",
+    "title": "Pharmacists"
+  },
+  {
+    "code": "29-1071",
+    "title": "Physician Assistants"
+  },
+  {
+    "code": "29-1122",
+    "title": "Occupational Therapists"
+  },
+  {
+    "code": "29-1123",
+    "title": "Physical Therapists"
+  },
+  {
+    "code": "29-1126",
+    "title": "Respiratory Therapists"
+  },
+  {
+    "code": "29-1127",
+    "title": "Speech-Language Pathologists"
+  },
+  {
+    "code": "29-1131",
+    "title": "Veterinarians"
+  },
+  {
+    "code": "29-1141",
+    "title": "Registered Nurses"
+  },
+  {
+    "code": "29-1171",
+    "title": "Nurse Practitioners"
+  },
+  {
+    "code": "29-1292",
+    "title": "Dental Hygienists"
+  },
+  {
+    "code": "29-2032",
+    "title": "Diagnostic Medical Sonographers"
+  },
+  {
+    "code": "29-2034",
+    "title": "Radiologic Technologists and Technicians"
+  },
+  {
+    "code": "29-2042",
+    "title": "Emergency Medical Technicians"
+  },
+  {
+    "code": "29-2043",
+    "title": "Paramedics"
+  },
+  {
+    "code": "29-2052",
+    "title": "Pharmacy Technicians"
+  },
+  {
+    "code": "29-2053",
+    "title": "Psychiatric Technicians"
+  },
+  {
+    "code": "29-2055",
+    "title": "Surgical Technologists"
+  },
+  {
+    "code": "29-2056",
+    "title": "Veterinary Technologists and Technicians"
+  },
+  {
+    "code": "29-2057",
+    "title": "Ophthalmic Medical Technicians"
+  }
+]

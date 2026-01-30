@@ -7,20 +7,29 @@
     --color-background: #f5f5f5;
     --color-white: #ffffff;
     --color-border: #e0e0e0;
-    
-    /* Wage Level Colors */
-    --level-below: #e8e8e8;
-    --level-1: #7eb0d5;
-    --level-2: #d9d4b8;
-    --level-3: #f25c5c;
-    
+
+    /* Wage Level Colors - Red to Green Gradient (Red = Can't work, Green = Can work) */
+    --level-below: #e74c3c;
+    /* Red - Below L1 */
+    --level-1: #e67e22;
+    /* Orange - L1 */
+    --level-2: #f1c40f;
+    /* Yellow - L2 */
+    --level-3: #2ecc71;
+    /* Light Green - L3 */
+    --level-4: #27ae60;
+    /* Green - L4 (Best) */
+    --no-data: #cccccc;
+    /* Gray - No data */
+
+
     /* Spacing */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
-    
+
     /* Font */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-size-sm: 0.875rem;
@@ -28,18 +37,20 @@
     --font-size-lg: 1.25rem;
     --font-size-xl: 1.5rem;
     --font-size-2xl: 2rem;
-    
+
     /* Border Radius */
     --radius-sm: 4px;
     --radius-md: 8px;
-    
+
     /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ===== Reset & Base ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -282,6 +293,14 @@ body {
     background-color: var(--level-3);
 }
 
+.legend-color.level-4 {
+    background-color: var(--level-4);
+}
+
+.legend-color.no-data {
+    background-color: var(--no-data);
+}
+
 .legend-label {
     font-size: var(--font-size-sm);
     color: var(--color-text);
@@ -322,7 +341,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ===== Responsive Design ===== */
@@ -330,7 +351,7 @@ body {
     .main-content {
         grid-template-columns: 1fr;
     }
-    
+
     .legend {
         flex-direction: row;
         flex-wrap: wrap;
@@ -344,19 +365,19 @@ body {
         --spacing-lg: 16px;
         --spacing-xl: 24px;
     }
-    
+
     .container {
         padding: var(--spacing-md);
     }
-    
+
     .title {
         font-size: var(--font-size-xl);
     }
-    
+
     .filters {
         grid-template-columns: 1fr;
     }
-    
+
     #map {
         aspect-ratio: 4 / 3;
         min-height: 300px;
@@ -367,11 +388,11 @@ body {
     .title {
         font-size: var(--font-size-lg);
     }
-    
+
     .subtitle {
         font-size: var(--font-size-sm);
     }
-    
+
     .legend-item {
         flex: 1 1 45%;
     }
@@ -382,8 +403,78 @@ body {
     .filters {
         display: none;
     }
-    
+
     .container {
         box-shadow: none;
+    }
+}
+
+/* ===== County Search Autocomplete ===== */
+.search-container {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 200;
+    display: none;
+}
+
+.search-result-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.15s ease;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--color-background);
+}
+
+.search-result-item.no-results {
+    color: var(--color-text-light);
+    font-style: italic;
+    cursor: default;
+}
+
+.search-result-item strong {
+    color: var(--color-text);
+}
+
+.search-result-item small {
+    color: var(--color-text-light);
+    font-size: 11px;
+}
+
+/* ===== Highlighted County ===== */
+.county.highlighted {
+    stroke: #000 !important;
+    stroke-width: 2px !important;
+    filter: brightness(1.1);
+    animation: pulse 1s ease-in-out 2;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        stroke-width: 2px;
+    }
+
+    50% {
+        stroke-width: 3px;
     }
 }
