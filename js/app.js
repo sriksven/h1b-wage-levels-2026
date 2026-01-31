@@ -62,18 +62,16 @@
 
             // Initialize filters with real occupation data
             initFilters();
-
-            // Set up county search
-            initCountySearch();
-
-            // Set up state/county dropdowns
             initStateCountyDropdowns();
+            initCountySearch();
+            setupEventListeners();
+            setupZoomControls();
+
+            // Comparison Tool
+            initComparisonTool();
 
             // Load and render map
             await loadMap();
-
-            // Set up event listeners
-            setupEventListeners();
 
             // Set up map container mouse leave
             setupMapMouseLeave();
@@ -1218,6 +1216,103 @@
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
+    }
+
+    // Comparison Tool Logic
+    function initComparisonTool() {
+        const compSection = document.getElementById('comparison-tool');
+        const locA = document.getElementById('comp-loc-a');
+        const locB = document.getElementById('comp-loc-b');
+
+        // Populate dropdowns with sorted Areas
+        if (!WageData.geography) return;
+        const areas = Object.values(WageData.geography).sort((a, b) => a.areaName.localeCompare(b.areaName));
+
+        areas.forEach(area => {
+            // Find key by object value
+            const code = Object.keys(WageData.geography).find(key => WageData.geography[key] === area);
+            if (code) {
+                const optA = new Option(area.areaName, code);
+                const optB = new Option(area.areaName, code);
+                locA.add(optA);
+                locB.add(optB);
+            }
+        });
+
+        // Event Listeners
+        locA.addEventListener('change', updateComparison);
+        locB.addEventListener('change', updateComparison);
+        document.getElementById('salary').addEventListener('input', updateComparison);
+
+        // Show section
+        compSection.classList.remove('hidden');
+    }
+
+    function updateComparison() {
+        const locA = document.getElementById('comp-loc-a').value;
+        const locB = document.getElementById('comp-loc-b').value;
+        const salary = state.salary;
+        const occupation = state.occupation;
+
+        if (!occupation || !salary) return;
+
+        updateNode('node-a', locA, salary, occupation);
+        updateNode('node-b', locB, salary, occupation);
+    }
+
+    function updateNode(nodeId, areaCode, salary, occupation) {
+        const container = document.getElementById(nodeId);
+        const node = container.querySelector('.comp-node');
+        const label = container.querySelector('.comp-level-label');
+        const text = container.querySelector('.comp-hike-text');
+
+        if (!areaCode) {
+            node.className = 'comp-node no-data';
+            label.textContent = 'Select Area';
+            text.textContent = 'Please select a location to see comparisons.';
+            return;
+        }
+
+        const level = WageData.calculateWageLevel(salary, areaCode, occupation);
+        const wages = WageData.getWages(areaCode, occupation);
+
+        // Reset classes
+        node.className = 'comp-node';
+        if (level === 0) node.classList.add('level-below');
+        else if (level >= 1 && level <= 4) node.classList.add(`level-${level}`);
+        else node.classList.add('no-data');
+
+        // Label
+        const levelNames = ['Below Level 1', 'Level 1', 'Level 2', 'Level 3', 'Level 4'];
+        label.textContent = (level >= 0 && level <= 4) ? levelNames[level] : 'No Data';
+
+        if (!wages) {
+            text.textContent = 'No wage data available for this occupation.';
+            return;
+        }
+
+        // Calculate next level logic
+        let targetLevel = level + 1;
+        if (level === 0) targetLevel = 1;
+
+        if (level >= 4) {
+            text.textContent = 'You are at the highest wage level (Level 4)!';
+            return;
+        }
+
+        const targetWage = wages[`l${targetLevel}`];
+        if (!targetWage) {
+            text.textContent = 'Data unavailable for next level.';
+            return;
+        }
+
+        const diff = targetWage - salary;
+        if (diff <= 0) {
+            text.textContent = 'You meet the requirements for this level.';
+        } else {
+            const percent = Math.round((diff / salary) * 100);
+            text.innerHTML = `Need <strong>${percent}% hike</strong> ($${diff.toLocaleString()}) to reach <strong>Level ${targetLevel}</strong> in this location.`;
+        }
     }
 
     // Initialize when DOM is ready
