@@ -169,6 +169,14 @@ const WageData = {
     '56': 'WY'
   },
 
+  /**
+   * Get list of all occupations
+   * @returns {Array} Array of occupation objects { code, title }
+   */
+  getOccupations() {
+    return this.occupations || [];
+  },
+
   // State abbreviations to names
   stateNames: {
     'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas',
