@@ -1,0 +1,161 @@
+/* Comparison Tool Typesetting */
+.comparison-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-section.hidden {
+    display: none;
+}
+
+.comp-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.comp-subtitle {
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 32px;
+}
+
+.comp-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.comp-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.comp-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+.comp-select {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: #f8fafc;
+    width: 100%;
+}
+
+/* Visualization */
+.comp-visual {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 40px 20px;
+    /* Ensure room for text below */
+    min-height: 250px;
+}
+
+.comp-connector {
+    flex-grow: 1;
+    height: 2px;
+    border-top: 4px dashed #cbd5e1;
+    margin: 0 20px;
+    position: absolute;
+    top: 90px;
+    /* Align with center of circle (50px) + padding top (40px) */
+    left: 100px;
+    right: 100px;
+    z-index: 0;
+}
+
+.comp-node-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 300px;
+    z-index: 1;
+}
+
+.comp-node {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    background-color: #e2e8f0;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Level Colors */
+.comp-node.level-below {
+    background-color: var(--color-below);
+}
+
+.comp-node.level-1 {
+    background-color: var(--color-l1);
+}
+
+.comp-node.level-2 {
+    background-color: var(--color-l2);
+}
+
+.comp-node.level-3 {
+    background-color: var(--color-l3);
+}
+
+.comp-node.level-4 {
+    background-color: var(--color-l4);
+}
+
+.comp-node.no-data {
+    background-color: #cbd5e1;
+}
+
+.comp-level-label {
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 12px;
+}
+
+.comp-hike-text {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #334155;
+    line-height: 1.5;
+    font-weight: 500;
+    max-width: 250px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .comp-controls {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .comp-visual {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .comp-connector {
+        width: 2px;
+        height: 100px;
+        border-top: none;
+        border-left: 4px dashed #cbd5e1;
+        top: 130px;
+        /* Adjust based on node size */
+        left: 50%;
+        right: auto;
+    }
+}

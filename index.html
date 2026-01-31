@@ -11,6 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>H1B Wage Levels 2026 | Wage-Weighted Selection Tool</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/comp.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -104,6 +105,42 @@
                 </div>
             </aside>
         </main>
+
+        <section class="comparison-section hidden" id="comparison-tool">
+            <h2 class="comp-title">What it takes to reach the next wage level?</h2>
+            <p class="comp-subtitle">Compare how your salary performs across two selected locations</p>
+
+            <div class="comp-controls">
+                <div class="comp-group">
+                    <label for="comp-loc-a">Location A</label>
+                    <select id="comp-loc-a" class="comp-select">
+                        <option value="">Select Area...</option>
+                    </select>
+                </div>
+                <div class="comp-group">
+                    <label for="comp-loc-b">Location B</label>
+                    <select id="comp-loc-b" class="comp-select">
+                        <option value="">Select Area...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="comp-visual">
+                <div class="comp-node-container" id="node-a">
+                    <div class="comp-node level-1"></div>
+                    <div class="comp-level-label">Level 1</div>
+                    <div class="comp-hike-text">Need 9% hike ($9,749) to reach next wage level in Location A.</div>
+                </div>
+
+                <div class="comp-connector"></div>
+
+                <div class="comp-node-container" id="node-b">
+                    <div class="comp-node level-2"></div>
+                    <div class="comp-level-label">Level 2</div>
+                    <div class="comp-hike-text">Need 21% hike ($22,187) to reach next wage level in Location B.</div>
+                </div>
+            </div>
+        </section>
 
         <footer class="footer">
             <p><strong>Data Source:</strong> OFLC, U.S. Department of Labor • Wage Year: July 2025 – June 2026</p>
