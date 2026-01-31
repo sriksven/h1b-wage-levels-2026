@@ -1016,7 +1016,7 @@
             CONFIG.colors.level3,
             CONFIG.colors.level4
         ];
-        const levelStatus = ['❌ Low priority', '⚠️ Low-Medium', '⚠️ Medium', '✅ Good chance', '✅ Best chance'];
+        const levelStatus = ['Low priority', 'Low-Medium', 'Medium', 'Good chance', 'Best chance'];
 
         let content;
         if (wages && level >= 0) {
