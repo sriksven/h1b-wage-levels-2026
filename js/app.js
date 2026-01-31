@@ -165,6 +165,7 @@
                             .replace(' city', '')
                             .replace(/\./g, '')
                             .replace(/'/g, '')
+                            .replace(/ñ/g, 'n')
                             .trim();
 
                         const mapKeyNorm = `${cleanCounty}|${stateAbbr}`;
