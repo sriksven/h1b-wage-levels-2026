@@ -185,12 +185,21 @@
 
             <div class="location-selector"
                 style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 12px; align-items: center;">
-                <select id="multi-state-selector" class="filter-select">
-                    <option value="">Select State...</option>
-                </select>
-                <select id="multi-compare-selector" class="filter-select" disabled>
-                    <option value="">Select County...</option>
-                </select>
+                <div class="search-container input-with-clear">
+                    <input type="text" id="multi-state-input" class="filter-input" placeholder="Search State..."
+                        autocomplete="off">
+                    <button type="button" id="multi-state-clear" class="input-clear-btn" title="Clear">✕</button>
+                    <input type="hidden" id="multi-state-value">
+                    <div id="multi-state-results" class="search-results"></div>
+                </div>
+
+                <div class="search-container input-with-clear">
+                    <input type="text" id="multi-county-input" class="filter-input"
+                        placeholder="Search County (Global)..." autocomplete="off">
+                    <button type="button" id="multi-county-clear" class="input-clear-btn" title="Clear">✕</button>
+                    <input type="hidden" id="multi-county-value">
+                    <div id="multi-county-results" class="search-results"></div>
+                </div>
                 <button id="add-location-btn" class="add-location-btn">Add to Comparison</button>
             </div>
 

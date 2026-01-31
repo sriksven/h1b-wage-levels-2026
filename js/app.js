@@ -1512,57 +1512,199 @@
      * Initialize Multi-Location Comparison
      */
     function initMultiCompare() {
-        const stateSelector = document.getElementById('multi-state-selector');
-        const selector = document.getElementById('multi-compare-selector');
+        const stateInput = document.getElementById('multi-state-input');
+        const stateValue = document.getElementById('multi-state-value');
+        const stateResults = document.getElementById('multi-state-results');
+        const stateClearBtn = document.getElementById('multi-state-clear');
+
+        const countyInput = document.getElementById('multi-county-input');
+        const countyValue = document.getElementById('multi-county-value');
+        const countyResults = document.getElementById('multi-county-results');
+        const countyClearBtn = document.getElementById('multi-county-clear');
+
         const addBtn = document.getElementById('add-location-btn');
         const multiOccupation = document.getElementById('multi-occupation');
         const multiSalary = document.getElementById('multi-salary');
 
-        if (!selector || !addBtn || !multiOccupation || !multiSalary || !stateSelector) return;
+        if (!countyInput || !addBtn || !multiOccupation || !multiSalary || !stateInput) return;
 
-        // Populate occupation dropdown (independent from main)
+        // Clear Handlers
+        if (stateClearBtn) {
+            stateClearBtn.addEventListener('click', () => {
+                stateInput.value = '';
+                stateValue.value = '';
+                stateResults.style.display = 'none';
+
+                // Reset county placeholder
+                countyInput.placeholder = 'Search County (Global)...';
+            });
+        }
+
+        if (countyClearBtn) {
+            countyClearBtn.addEventListener('click', () => {
+                countyInput.value = '';
+                countyValue.value = '';
+                countyResults.style.display = 'none';
+            });
+        }
+
+        // Populate occupation dropdown
         const occupations = WageData.getOccupations();
         occupations.forEach(occ => {
             const option = new Option(occ.title, occ.code);
             multiOccupation.add(option);
         });
-        multiOccupation.value = '15-1252'; // Default to Software Developers
+        multiOccupation.value = '15-1252';
 
-        // Populate State Selector
-        // Get unique states from geography
-        const states = new Set();
-        Object.values(WageData.geography).forEach(geo => states.add(geo.state));
-
-        const sortedStates = Array.from(states).sort().map(abbr => ({
+        // Prepare State Data
+        const statesList = Object.keys(state.stateCounties).sort().map(abbr => ({
             abbr: abbr,
             name: WageData.stateNames[abbr] || abbr
         }));
 
-        sortedStates.forEach(state => {
-            const option = new Option(state.name, state.abbr);
-            stateSelector.add(option);
+        // --- State Search Logic ---
+        let stateDebounce;
+        stateInput.addEventListener('input', (e) => {
+            clearTimeout(stateDebounce);
+            const query = e.target.value.trim().toLowerCase();
+
+            // Clear selection logic
+            if (query === '') {
+                stateValue.value = '';
+                // Optional: Clear county too? User request implies independence, but usually clearing state might affect filtering.
+                // For now, let's just reset result display
+                stateResults.style.display = 'none';
+                return;
+            }
+
+            stateDebounce = setTimeout(() => {
+                const results = statesList.filter(s =>
+                    s.name.toLowerCase().includes(query) || s.abbr.toLowerCase().includes(query)
+                );
+
+                if (results.length === 0) {
+                    stateResults.innerHTML = '<div class="search-result-item no-results">No states found</div>';
+                } else {
+                    stateResults.innerHTML = results.map(s => `
+                        <div class="search-result-item" data-abbr="${s.abbr}" data-name="${s.name}">
+                            <strong>${s.name}</strong> <small>(${s.abbr})</small>
+                        </div>
+                    `).join('');
+                }
+                stateResults.style.display = 'block';
+            }, 100);
         });
 
-        // State selection change handler
-        stateSelector.addEventListener('change', () => {
-            const selectedState = stateSelector.value;
-            // Clear county selector
-            selector.innerHTML = '<option value="">Select County...</option>';
-            selector.disabled = !selectedState;
+        stateResults.addEventListener('click', (e) => {
+            const item = e.target.closest('.search-result-item');
+            if (!item || item.classList.contains('no-results')) return;
 
-            if (selectedState) {
-                // Filter areas by state
-                const areas = Object.entries(WageData.geography)
-                    .filter(([_, data]) => data.state === selectedState)
-                    .map(([code, data]) => ({ code, name: data.areaName }))
-                    .sort((a, b) => a.name.localeCompare(b.name));
+            const abbr = item.dataset.abbr;
+            const name = item.dataset.name;
 
-                areas.forEach(area => {
-                    const option = new Option(area.name, area.code);
-                    selector.add(option);
-                });
+            stateInput.value = name;
+            stateValue.value = abbr;
+            stateResults.style.display = 'none';
+
+            // Clear county input if state changes to encourage re-selection within context
+            countyInput.value = '';
+            countyValue.value = '';
+            countyInput.placeholder = `Search County in ${abbr}...`;
+        });
+
+        // Focus show all (State)
+        stateInput.addEventListener('focus', () => {
+            if (stateInput.value.trim() === '') {
+                stateResults.innerHTML = statesList.map(s => `
+                    <div class="search-result-item" data-abbr="${s.abbr}" data-name="${s.name}">
+                        <strong>${s.name}</strong> <small>(${s.abbr})</small>
+                    </div>
+                `).join('');
+                stateResults.style.display = 'block';
             }
         });
+
+
+        // --- County Search Logic (Global + Filtered) ---
+        let countyDebounce;
+        countyInput.addEventListener('input', (e) => {
+            clearTimeout(countyDebounce);
+            const query = e.target.value.trim();
+            const selectedState = stateValue.value;
+
+            if (query.length < 2) {
+                countyResults.style.display = 'none';
+                return;
+            }
+
+            countyDebounce = setTimeout(() => {
+                let results = [];
+
+                if (selectedState) {
+                    // Filter within selected state
+                    const stateCounties = state.stateCounties[selectedState] || [];
+                    results = stateCounties
+                        .filter(c => c.county.toLowerCase().includes(query.toLowerCase()))
+                        .map(c => ({
+                            county: c.county,
+                            state: selectedState,
+                            areaCode: c.area,
+                            areaName: c.areaName
+                        }));
+                } else {
+                    // Global Search
+                    results = WageData.searchCounties(query, 10);
+                }
+
+                if (results.length === 0) {
+                    countyResults.innerHTML = '<div class="search-result-item no-results">No counties found</div>';
+                } else {
+                    countyResults.innerHTML = results.map(r => `
+                        <div class="search-result-item" data-area="${r.areaCode}" data-county="${r.county}" data-state="${r.state}">
+                            <strong>${r.county}</strong>, ${r.state}
+                            <br><small>${r.areaName}</small>
+                        </div>
+                    `).join('');
+                }
+                countyResults.style.display = 'block';
+            }, 150);
+        });
+
+        countyResults.addEventListener('click', (e) => {
+            const item = e.target.closest('.search-result-item');
+            if (!item || item.classList.contains('no-results')) return;
+
+            const areaCode = item.dataset.area;
+            const county = item.dataset.county;
+            const stateAbbr = item.dataset.state;
+
+            // Set County
+            countyInput.value = `${county}, ${stateAbbr}`;
+            countyValue.value = areaCode;
+
+            // Auto-populate State if not already set or different
+            if (stateValue.value !== stateAbbr) {
+                const stateObj = statesList.find(s => s.abbr === stateAbbr);
+                if (stateObj) {
+                    stateInput.value = stateObj.name;
+                    stateValue.value = stateAbbr;
+                }
+            }
+
+            countyResults.style.display = 'none';
+        });
+
+
+        // Shared: Close on click outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#multi-state-input') && !e.target.closest('#multi-state-results')) {
+                stateResults.style.display = 'none';
+            }
+            if (!e.target.closest('#multi-county-input') && !e.target.closest('#multi-county-results')) {
+                countyResults.style.display = 'none';
+            }
+        });
+
 
         // Update auto-update logic to use updateAll
         multiSalary.addEventListener('input', debounce(() => MultiCompare.updateAll(), 300));
@@ -1570,20 +1712,35 @@
 
         // Add location button handler
         addBtn.addEventListener('click', () => {
-            const selectedCode = selector.value;
+            const selectedCode = countyValue.value;
             if (!selectedCode) {
                 alert('Please select a location');
                 return;
             }
 
+            // We need the area name for the card. The search result has it, but we only have code now.
+            // We can fetch it back from WageData using getAreaInfo or the countyToArea logic.
+            // A simple way is to re-fetch the area info using the code.
+            const areaInfo = WageData.getAreaInfo(selectedCode);
+            // Also need the display name we just selected (e.g. "Suffolk County")
+            // We can parse it from input or reconstruct it. Parse from input is risky if user edited it.
+            // Safe bet: find the county name again from the code? 
+            // Actually, `addLocation` just takes areaName (Metro Area) and State.
+            // But wait, the previous logic passed `areaName` (Metro Area Name).
+            // Let's stick to that, or pass the County Name if we prefer. 
+            // The prompt image shows "Fort Smith, AR-OK" which is an Area Name. 
+            // So we should pass the Area Name.
+
             const salary = parseInt(multiSalary.value) || 150000;
             const occupation = multiOccupation.value || '15-1252';
 
-            const areaData = WageData.geography[selectedCode];
-            if (areaData) {
-                const success = MultiCompare.addLocation(selectedCode, areaData.areaName, areaData.state, salary, occupation);
+            if (areaInfo) {
+                const success = MultiCompare.addLocation(selectedCode, areaInfo.areaName, areaInfo.state, salary, occupation);
                 if (success) {
-                    selector.value = ''; // Reset selector
+                    // Reset fields
+                    countyInput.value = '';
+                    countyValue.value = '';
+                    // Keep state or clear it? User might want to compare multiple in same state. Keep it.
                 }
             }
         });
