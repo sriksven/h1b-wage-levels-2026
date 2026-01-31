@@ -19,8 +19,8 @@
         topoJsonUrl: 'https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json',
         defaultSalary: 120000,
         defaultOccupation: '15-2051', // Data Scientists
-        defaultState: 'MA',
-        defaultCounty: 'Suffolk County'
+        // defaultState: 'MA',
+        // defaultCounty: 'Suffolk County'
     };
 
     // Application state
