@@ -346,8 +346,10 @@ body {
 }
 
 .county.highlighted {
-    stroke: var(--color-dark) !important;
-    stroke-width: 2px !important;
+    stroke: #ffffff !important;
+    stroke-width: 2.5px !important;
+    z-index: 100;
+    /* Attempt to bring to front, though SVG order matters more */
 }
 
 .state-border {
