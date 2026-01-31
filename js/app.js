@@ -860,7 +860,7 @@
 
         // Create projection
         state.projection = d3.geoAlbersUsa()
-            .scale(width * 1.1)
+            .scale(width * 1.05)
             .translate([width / 2, height / 2]);
 
         state.path = d3.geoPath().projection(state.projection);
