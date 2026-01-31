@@ -593,6 +593,9 @@
     function unlockTooltip() {
         state.tooltipLocked = false;
         state.tooltip.classList.remove('locked');
+        // Shift zoom controls back to left
+        const zoomControls = document.querySelector('.zoom-controls');
+        if (zoomControls) zoomControls.classList.remove('shifted');
     }
 
     /**
@@ -648,8 +651,10 @@
             if (fipsStateAbbr === stateAbbr) {
                 const cName = d.properties?.name;
                 if (cName && normalizeCountyName(cName) === targetCountyNorm) {
-                    d3.select(this).classed('highlighted', true);
-                    state.highlightedCounty = d3.select(this);
+                    const element = d3.select(this);
+                    element.classed('highlighted', true);
+                    element.raise(); // Bring to front so stroke is visible on all sides
+                    state.highlightedCounty = element;
                 }
             }
         });
@@ -715,6 +720,9 @@
         if (lockTooltip) {
             state.tooltipLocked = true;
             state.tooltip.classList.add('locked');
+            // Shift zoom controls to right to avoid overlap
+            const zoomControls = document.querySelector('.zoom-controls');
+            if (zoomControls) zoomControls.classList.add('shifted');
         }
     }
 
@@ -1159,6 +1167,12 @@
 
             const countySelect = document.getElementById('county-filter');
             countySelect.value = `${countyName} County|${areaCode}`;
+
+            // Update Quick Search field to match
+            const quickSearch = document.getElementById('county-search');
+            if (quickSearch) {
+                quickSearch.value = `${countyName} County, ${stateAbbr}`;
+            }
 
             // Zoom to state if not already
             zoomToState(stateAbbr);
