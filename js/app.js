@@ -1307,7 +1307,10 @@
     function updateComparison() {
         const locA = document.getElementById('comp-loc-a').value;
         const locB = document.getElementById('comp-loc-b').value;
-        const salary = state.salary;
+
+        // Get fresh salary directly from input to avoid stale state
+        const salaryInput = document.getElementById('salary');
+        const salary = salaryInput ? parseSalary(salaryInput.value) : state.salary;
         const occupation = state.occupation;
 
         if (!occupation || !salary) return;
@@ -1367,7 +1370,15 @@
             text.textContent = 'You meet the requirements for this level.';
         } else {
             const percent = Math.round((diff / salary) * 100);
-            text.innerHTML = `Need <strong>${percent}% hike</strong> ($${diff.toLocaleString()}) to reach <strong>Level ${targetLevel}</strong> in this location.`;
+
+            // Handle edge cases where salary is very low (e.g. user typing)
+            if (salary < 10000) {
+                // If salary is unrealistically low (< $10k), showing % is confusing (e.g. 10000%)
+                text.innerHTML = `Need <strong>$${diff.toLocaleString()} hike</strong> to reach <strong>Level ${targetLevel}</strong> in this location.`;
+            } else {
+                const percentStr = percent.toLocaleString();
+                text.innerHTML = `Need <strong>${percentStr}% hike</strong> ($${diff.toLocaleString()}) to reach <strong>Level ${targetLevel}</strong> in this location.`;
+            }
         }
     }
 
@@ -1393,6 +1404,17 @@
         const areaCode = state.currentAreaCode || '41860'; // Default to San Francisco
 
         const wages = WageData.getWages(areaCode, state.occupation);
+
+        // Update header text
+        const headerLocation = document.getElementById('salary-calc-location');
+        if (headerLocation) {
+            if (state.currentAreaName) {
+                headerLocation.innerHTML = `Based on <strong>${state.currentAreaName}</strong>`;
+            } else {
+                headerLocation.textContent = 'Based on your selected location above';
+            }
+        }
+
         if (!wages) {
             container.innerHTML = '<p style="text-align: center; color: #9ca3af;">Click on a county on the map to see salary gaps</p>';
             return;
