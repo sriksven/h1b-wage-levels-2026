@@ -148,13 +148,11 @@
         <section class="calculator-section" id="salary-calculator">
             <div class="calculator-header">
                 <h2>💰 Salary Adjustment Calculator</h2>
+                <p style="text-align: center; color: #9ca3af; margin-top: 8px;">Based on your selected location above
+                </p>
             </div>
 
             <div id="salary-gaps-container">
-                <!-- Populated by JavaScript -->
-            </div>
-
-            <div id="col-comparison-container">
                 <!-- Populated by JavaScript -->
             </div>
         </section>
@@ -163,6 +161,26 @@
         <section class="multi-compare-section" id="multi-location-compare">
             <div class="multi-compare-header">
                 <h2>📊 Multi-Location Comparison</h2>
+                <p style="text-align: center; color: #9ca3af; margin-top: 8px;">Compare salary levels across different
+                    cities (independent from map)</p>
+            </div>
+
+            <!-- Independent inputs for multi-compare -->
+            <div class="multi-compare-inputs"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <div>
+                    <label for="multi-salary" style="display: block; margin-bottom: 8px; font-weight: 600;">Your
+                        Salary</label>
+                    <input type="number" id="multi-salary" class="filter-input" placeholder="e.g., 150000"
+                        value="150000" style="width: 100%;">
+                </div>
+                <div>
+                    <label for="multi-occupation"
+                        style="display: block; margin-bottom: 8px; font-weight: 600;">Occupation</label>
+                    <select id="multi-occupation" class="filter-select" style="width: 100%;">
+                        <option value="">Select occupation...</option>
+                    </select>
+                </div>
             </div>
 
             <div class="location-selector">

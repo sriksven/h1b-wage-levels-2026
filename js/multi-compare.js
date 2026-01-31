@@ -12,7 +12,7 @@ const MultiCompare = (function () {
     /**
      * Add location to comparison
      */
-    function addLocation(areaCode, areaName, stateAbbr) {
+    function addLocation(areaCode, areaName, stateAbbr, salary, occupation) {
         if (comparedLocations.length >= MAX_LOCATIONS) {
             alert(`Maximum ${MAX_LOCATIONS} locations allowed`);
             return false;
@@ -25,7 +25,7 @@ const MultiCompare = (function () {
         }
 
         comparedLocations.push({ areaCode, areaName, state: stateAbbr });
-        updateComparisonTable();
+        updateComparisonTable(salary, occupation);
         return true;
     }
 
@@ -34,7 +34,11 @@ const MultiCompare = (function () {
      */
     function removeLocation(areaCode) {
         comparedLocations = comparedLocations.filter(loc => loc.areaCode !== areaCode);
-        updateComparisonTable();
+
+        // Get current values
+        const salary = parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        const occupation = document.getElementById('multi-occupation')?.value || '15-1252';
+        updateComparisonTable(salary, occupation);
     }
 
     /**
@@ -42,7 +46,18 @@ const MultiCompare = (function () {
      */
     function clearAll() {
         comparedLocations = [];
-        updateComparisonTable();
+        const salary = parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        const occupation = document.getElementById('multi-occupation')?.value || '15-1252';
+        updateComparisonTable(salary, occupation);
+    }
+
+    /**
+     * Update all comparisons (when salary or occupation changes)
+     */
+    function updateAll() {
+        const salary = parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        const occupation = document.getElementById('multi-occupation')?.value || '15-1252';
+        updateComparisonTable(salary, occupation);
     }
 
     /**
@@ -96,7 +111,7 @@ const MultiCompare = (function () {
     /**
      * Update the comparison table
      */
-    function updateComparisonTable() {
+    function updateComparisonTable(salary, occupation) {
         const container = document.getElementById('comparison-table-container');
         if (!container) return;
 
@@ -105,10 +120,7 @@ const MultiCompare = (function () {
             return;
         }
 
-        // Get current salary and occupation from main app state
-        const salary = window.appState?.salary || 100000;
-        const occupation = window.appState?.occupation || '15-1252';
-
+        // Use provided salary and occupation (from multi-compare inputs)
         const ranked = rankByLevel(salary, occupation);
 
         const levelColors = ['#dc2626', '#f97316', '#facc15', '#22c55e', '#15803d'];
@@ -116,7 +128,7 @@ const MultiCompare = (function () {
 
         let html = `
             <div class="comparison-header">
-                <h3>Comparing ${comparedLocations.length} Location${comparedLocations.length > 1 ? 's' : ''}</h3>
+                <h3>Comparing ${comparedLocations.length} Location${comparedLocations.length > 1 ? 's' : ''} (Salary: $${salary.toLocaleString()})</h3>
                 <button onclick="MultiCompare.clearAll()" class="clear-btn">Clear All</button>
             </div>
             <div class="comparison-table-wrapper">
@@ -184,7 +196,9 @@ const MultiCompare = (function () {
      */
     function init() {
         console.log('Multi-location comparison initialized');
-        updateComparisonTable();
+        const salary = parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        const occupation = document.getElementById('multi-occupation')?.value || '15-1252';
+        updateComparisonTable(salary, occupation);
     }
 
     // Public API
@@ -193,6 +207,7 @@ const MultiCompare = (function () {
         addLocation,
         removeLocation,
         clearAll,
+        updateAll,
         getLocations: () => comparedLocations,
         updateTable: updateComparisonTable
     };

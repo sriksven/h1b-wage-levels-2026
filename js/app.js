@@ -25,13 +25,15 @@
     const state = {
         salary: CONFIG.defaultSalary,
         occupation: CONFIG.defaultOccupation,
-        selectedState: '',
+        selectedState: null, // Changed from '' to null
         selectedCounty: '',
         countyData: null,
         countyToArea: {},      // Map "CountyName|State" to OFLC area code
         stateCounties: {},     // Map state abbr to list of counties
         highlightedCounty: null,
         tooltipLocked: false,  // Whether tooltip is locked (requires X to dismiss)
+        currentAreaCode: null, // Track current area for calculator
+        currentAreaName: null,
         svg: null,
         tooltip: null,
         projection: null,
@@ -347,7 +349,7 @@
                 e.stopPropagation();
                 stateInput.value = '';
                 stateValue.value = '';
-                state.selectedState = '';
+                state.selectedState = null; // Changed from '' to null
                 state.selectedCounty = '';
                 unlockTooltip();
                 clearHighlight();
@@ -388,7 +390,7 @@
                 stateResults.innerHTML = '';
                 // Clear state selection
                 stateValue.value = '';
-                state.selectedState = '';
+                state.selectedState = null; // Changed from '' to null
                 state.selectedCounty = '';
                 unlockTooltip();
                 updateCountyDropdown();
@@ -616,6 +618,11 @@
         state.highlightedCounty = null;
         state.tooltip.classList.remove('visible');
         unlockTooltip();
+
+        // Clear current area for calculator
+        state.currentAreaCode = null;
+        state.currentAreaName = null;
+        updateSalaryGaps(); // Update calculator
     }
 
     /**
@@ -665,6 +672,11 @@
                 }
             }
         });
+
+        // Store current area for calculator
+        state.currentAreaCode = areaCode;
+        state.currentAreaName = `${countyName}, ${stateAbbr}`;
+        updateSalaryGaps(); // Update calculator
     }
 
     /**
@@ -1360,7 +1372,7 @@
     function initSalaryCalculator() {
         updateSalaryGaps();
 
-        // Update when salary or occupation changes
+        // Update when salary or occupation changes (NOT county - that's handled by map)
         document.getElementById('salary').addEventListener('input', debounce(updateSalaryGaps, 300));
         document.getElementById('occupation').addEventListener('change', updateSalaryGaps);
     }
@@ -1372,15 +1384,12 @@
         const container = document.getElementById('salary-gaps-container');
         if (!container) return;
 
-        // Get current area from map or default to a major city
-        const areaCode = state.selectedState ?
-            Object.keys(WageData.geography).find(code =>
-                WageData.geography[code].state === state.selectedState
-            ) : '41860'; // Default to San Francisco
+        // Use currently highlighted area from map
+        const areaCode = state.currentAreaCode || '41860'; // Default to San Francisco
 
         const wages = WageData.getWages(areaCode, state.occupation);
         if (!wages) {
-            container.innerHTML = '<p style="text-align: center; color: #9ca3af;">Select a location to see salary gaps</p>';
+            container.innerHTML = '<p style="text-align: center; color: #9ca3af;">Click on a county on the map to see salary gaps</p>';
             return;
         }
 
@@ -1395,7 +1404,8 @@
         Object.keys(gapData.gaps).forEach((key, index) => {
             const level = index + 1;
             const gap = gapData.gaps[key];
-            const threshold = gapData.thresholds[key];
+            const thresholdKey = `l${level}`; // Use l1, l2, l3, l4 format
+            const threshold = gapData.thresholds[thresholdKey];
             const isCurrent = gapData.currentLevel === level;
             const isAchieved = gapData.currentLevel >= level;
 
@@ -1430,8 +1440,18 @@
     function initMultiCompare() {
         const selector = document.getElementById('multi-compare-selector');
         const addBtn = document.getElementById('add-location-btn');
+        const multiOccupation = document.getElementById('multi-occupation');
+        const multiSalary = document.getElementById('multi-salary');
 
-        if (!selector || !addBtn) return;
+        if (!selector || !addBtn || !multiOccupation || !multiSalary) return;
+
+        // Populate occupation dropdown (independent from main)
+        const occupations = WageData.getOccupations();
+        occupations.forEach(occ => {
+            const option = new Option(occ.title, occ.code);
+            multiOccupation.add(option);
+        });
+        multiOccupation.value = '15-1252'; // Default to Software Developers
 
         // Populate selector with all areas
         const areas = Object.entries(WageData.geography)
@@ -1451,14 +1471,21 @@
                 return;
             }
 
+            const salary = parseInt(multiSalary.value) || 150000;
+            const occupation = multiOccupation.value || '15-1252';
+
             const areaData = WageData.geography[selectedCode];
             if (areaData) {
-                const success = MultiCompare.addLocation(selectedCode, areaData.areaName, areaData.state);
+                const success = MultiCompare.addLocation(selectedCode, areaData.areaName, areaData.state, salary, occupation);
                 if (success) {
                     selector.value = ''; // Reset selector
                 }
             }
         });
+
+        // Update comparison when salary or occupation changes
+        multiSalary.addEventListener('input', debounce(() => MultiCompare.updateAll(), 300));
+        multiOccupation.addEventListener('change', () => MultiCompare.updateAll());
 
         // Initialize the comparison module
         MultiCompare.init();
