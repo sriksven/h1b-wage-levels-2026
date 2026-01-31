@@ -3,54 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description"
         content="H1B Wage Levels 2026 - Interactive visualization tool with real OFLC data to understand your position under the wage-weighted selection framework">
-    <title>H1B Wage Levels 2026</title>
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>H1B Wage Levels 2026 | Wage-Weighted Selection Tool</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
 
 <body>
     <div class="container">
         <header class="header">
             <h1 class="title">H1B Wage Levels <span class="year">2026</span></h1>
-            <p class="subtitle">Understanding your position under the wage-weighted selection framework</p>
+            <p class="subtitle">Your guide to the wage-weighted H1B selection framework</p>
         </header>
 
         <section class="instructions">
-            <p>Enter your annual base salary and occupation to see how it maps to wage levels across the U.S.</p>
-            <p>Search for a county or use the dropdowns below. Hover over the map to view official wage thresholds from
-                OFLC.</p>
+            <p>📊 Enter your <strong>salary</strong> and <strong>occupation</strong> to visualize your wage level across
+                all U.S. counties.</p>
+            <p>🔍 Use the dropdowns or search to find specific locations. Hover over the map for detailed thresholds.
+            </p>
         </section>
 
         <section class="filters">
             <div class="filter-group">
-                <label for="salary">Annual Salary (USD)</label>
-                <input type="text" id="salary" class="filter-input" value="150,000" placeholder="e.g. 150,000">
+                <label for="salary">💰 Annual Salary</label>
+                <input type="text" id="salary" class="filter-input" value="150,000" placeholder="e.g. 150,000"
+                    inputmode="numeric">
             </div>
             <div class="filter-group">
-                <label for="occupation">Occupation</label>
+                <label for="occupation">💼 Occupation</label>
                 <select id="occupation" class="filter-select">
                     <option value="">Loading...</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="state-filter">State</label>
+                <label for="state-filter">📍 State</label>
                 <select id="state-filter" class="filter-select">
                     <option value="">(All States)</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="county-filter">County</label>
+                <label for="county-filter">🏘️ County</label>
                 <select id="county-filter" class="filter-select">
                     <option value="">(Select State First)</option>
                 </select>
             </div>
             <div class="filter-group search-container">
-                <label for="county-search">Quick Search</label>
+                <label for="county-search">🔎 Quick Search</label>
                 <input type="text" id="county-search" class="filter-input" placeholder="Type county name...">
                 <div id="search-results" class="search-results"></div>
             </div>
@@ -90,7 +97,10 @@
         </main>
 
         <footer class="footer">
-            <p><strong>Data Source:</strong> OFLC, U.S. Department of Labor | Wage Year: July 2025 - June 2026</p>
+            <p><strong>Data Source:</strong> OFLC, U.S. Department of Labor • Wage Year: July 2025 – June 2026</p>
+            <a href="https://github.com/sriksven" class="attribution" target="_blank" rel="noopener">
+                Built by sriksven
+            </a>
         </footer>
     </div>
 
