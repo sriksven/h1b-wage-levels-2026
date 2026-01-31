@@ -26,38 +26,37 @@
         </header>
 
         <section class="instructions">
-            <p>📊 Enter your <strong>salary</strong> and <strong>occupation</strong> to visualize your wage level across
+            <p>Enter your <strong>salary</strong> and <strong>occupation</strong> to visualize your wage level across
                 all U.S. counties.</p>
-            <p>🔍 Use the dropdowns or search to find specific locations. Hover over the map for detailed thresholds.
-            </p>
+            <p>Use the dropdowns or search to find specific locations. Hover over the map for detailed thresholds.</p>
         </section>
 
         <section class="filters">
             <div class="filter-group">
-                <label for="salary">💰 Annual Salary</label>
+                <label for="salary">Base Annual Salary</label>
                 <input type="text" id="salary" class="filter-input" value="150,000" placeholder="e.g. 150,000"
                     inputmode="numeric">
             </div>
             <div class="filter-group">
-                <label for="occupation">💼 Occupation</label>
+                <label for="occupation">Occupation</label>
                 <select id="occupation" class="filter-select">
                     <option value="">Loading...</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="state-filter">📍 State</label>
+                <label for="state-filter">State</label>
                 <select id="state-filter" class="filter-select">
                     <option value="">(All States)</option>
                 </select>
             </div>
             <div class="filter-group">
-                <label for="county-filter">🏘️ County</label>
+                <label for="county-filter">County</label>
                 <select id="county-filter" class="filter-select">
                     <option value="">(Select State First)</option>
                 </select>
             </div>
             <div class="filter-group search-container">
-                <label for="county-search">🔎 Quick Search</label>
+                <label for="county-search">Quick Search</label>
                 <input type="text" id="county-search" class="filter-input" placeholder="Type county name...">
                 <div id="search-results" class="search-results"></div>
             </div>
