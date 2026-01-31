@@ -25,7 +25,11 @@ const MultiCompare = (function () {
         }
 
         comparedLocations.push({ areaCode, areaName, state: stateAbbr });
-        updateComparisonTable(salary, occupation);
+
+        // Use provided values or get from inputs
+        const finalSalary = salary || parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        const finalOccupation = occupation || document.getElementById('multi-occupation')?.value || '15-1252';
+        updateComparisonTable(finalSalary, finalOccupation);
         return true;
     }
 
@@ -114,6 +118,10 @@ const MultiCompare = (function () {
     function updateComparisonTable(salary, occupation) {
         const container = document.getElementById('comparison-table-container');
         if (!container) return;
+
+        // Ensure salary and occupation have defaults
+        salary = salary || parseInt(document.getElementById('multi-salary')?.value) || 150000;
+        occupation = occupation || document.getElementById('multi-occupation')?.value || '15-1252';
 
         if (comparedLocations.length === 0) {
             container.innerHTML = '<p style="text-align: center; color: #9ca3af; padding: 2rem;">Add locations to compare</p>';
